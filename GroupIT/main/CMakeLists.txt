@@ -1,6 +1,6 @@
 # The MIT License (MIT)
 #
-# Copyright (c) 2020 Scott Aron Bloom
+# Copyright (c) 2022 Scott Aron Bloom
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,40 +20,32 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+cmake_minimum_required(VERSION 3.22)
+ 
 project( GroupIT ) 
 
 include( include.cmake )
-include( ${CMAKE_SOURCE_DIR}/SABUtils/Project.cmake )
+include( ${CMAKE_SOURCE_DIR}/Project.cmake )
+include_directories( ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR}/GroupIT )
 
-add_executable( GroupIT WIN32
-                 ${project_SRCS} 
-                 ${project_H} 
-                 ${qtproject_SRCS} 
-                 ${qtproject_QRC} 
-                 ${qtproject_QRC_SRCS} 
-                 ${qtproject_UIS_H} 
-                 ${qtproject_MOC_SRCS} 
-                 ${qtproject_H} 
-                 ${qtproject_UIS}
-                 ${qtproject_QRC_SOURCES}
-                 ${_CMAKE_FILES}
-                 ${_CMAKE_MODULE_FILES}
+add_executable( ${PROJECT_NAME} WIN32
+                ${_PROJECT_DEPENDENCIES} 
+                ${_CMAKE_MODULE_FILES}
                 application.rc 
           )
-set_target_properties( GroupIT PROPERTIES FOLDER Apps )
+set_target_properties( ${PROJECT_NAME} PROPERTIES FOLDER Apps )
 
-target_link_libraries( GroupIT 
-                 Qt5::Widgets
-                 Qt5::Core
-                 Qt5::Multimedia
-                 Qt5::XmlPatterns
-                 SABUtils
-                 MainWindow
-          )
-DeployQt( GroupIT . )
-DeploySystem( GroupIT . )
+target_link_libraries( ${PROJECT_NAME}
+    PUBLIC
+        ${project_pub_DEPS}
+    PRIVATE 
+        ${project_pri_DEPS}
+)
+
+DeployQt( ${PROJECT_NAME} . )
+DeploySystem( ${PROJECT_NAME} . INSTALL_ONLY 1 )
 
 INSTALL( TARGETS ${PROJECT_NAME} RUNTIME DESTINATION . )
-INSTALL( FILES ${CMAKE_CURRENT_BINARY_DIR}/Debug/${PROJECT_NAME}.pdb DESTINATION . CONFIGURATIONS Debug )
+INSTALL( FILES ${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/${PROJECT_NAME}.pdb DESTINATION . CONFIGURATIONS Debug RelWithDebInfo )
 
 

@@ -72,7 +72,7 @@
      </widget>
     </item>
     <item row="0" column="0" colspan="3">
-     <widget class="CDelayLineEdit" name="dir">
+     <widget class="NSABUtils::CDelayLineEdit" name="dir">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -83,7 +83,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="CMenuBarEx" name="menubar">
+  <widget class="NSABUtils::CMenuBarEx" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -152,12 +152,12 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>CDelayLineEdit</class>
+   <class>NSABUtils::CDelayLineEdit</class>
    <extends>QLineEdit</extends>
    <header>SABUtils/DelayLineEdit.h</header>
   </customwidget>
   <customwidget>
-   <class>CMenuBarEx</class>
+   <class>NSABUtils::CMenuBarEx</class>
    <extends>QMenuBar</extends>
    <header>SABUtils/MenuBarEx.h</header>
   </customwidget>

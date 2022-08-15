@@ -14,3 +14,8 @@ set(qtproject_UIS
 
 set(qtproject_QRC
 )
+
+set( project_pub_DEPS
+        SABUtils
+        MultiMoviePerDirMainWindow
+)

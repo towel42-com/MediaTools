@@ -48,7 +48,7 @@ CMainWindow::CMainWindow(QWidget* parent)
 
     loadSettings();
 
-    connect(fImpl->dir, &CDelayLineEdit::sigTextChanged, this, &CMainWindow::slotDirectoryChanged);
+    connect(fImpl->dir, &NSABUtils::CDelayLineEdit::sigTextChangedAfterDelay, this, &CMainWindow::slotDirectoryChanged);
     connect(fImpl->btnSelectDir, &QPushButton::clicked, this, &CMainWindow::slotSelectDirectory);
     connect(fImpl->btnTransform, &QPushButton::clicked, this, &CMainWindow::slotTransform);
 
@@ -63,11 +63,11 @@ CMainWindow::CMainWindow(QWidget* parent)
 
     QTimer::singleShot(0, this, &CMainWindow::slotDirectoryChanged);
 
-    connect( fImpl->menubar, &CMenuBarEx::sigAboutToEngage, []() 
+    connect( fImpl->menubar, &NSABUtils::CMenuBarEx::sigAboutToEngage, []() 
              { 
                  qDebug() << QDateTime::currentDateTime().toString() << "Menubar engaged"; 
              } );
-    connect( fImpl->menubar, &CMenuBarEx::sigFinishedEngagement, []() 
+    connect( fImpl->menubar, &NSABUtils::CMenuBarEx::sigFinishedEngagement, []()
              { 
                  qDebug() << QDateTime::currentDateTime().toString() << "Menubar disengaged"; 
              } );
@@ -82,7 +82,7 @@ void CMainWindow::loadSettings()
 {
     QSettings settings;
 
-    fImpl->dir->setText(settings.value("Directory", QString()).toString(), false );
+    fImpl->dir->setText( settings.value( "Directory", QString() ).toString() );
 }
 
 void CMainWindow::saveSettings()
@@ -104,7 +104,7 @@ void CMainWindow::slotSelectDirectory()
 {
     auto dir = QFileDialog::getExistingDirectory(this, tr("Select Directory:"), fImpl->dir->text());
     if (!dir.isEmpty())
-        fImpl->dir->setText(dir, true);
+        fImpl->dir->setText( dir );
 }
 
 void CMainWindow::slotLoad()

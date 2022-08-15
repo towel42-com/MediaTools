@@ -20,49 +20,51 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-cmake_minimum_required(VERSION 3.21)
+cmake_minimum_required(VERSION 3.1)
 if(CMAKE_VERSION VERSION_LESS "3.7.0")
     set(CMAKE_INCLUDE_CURRENT_DIR ON)
 endif()
 
-project(root-GroupIT ) 
+project(root-MediaTools)
 
 SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/SABUtils/Modules ${CMAKE_MODULE_PATH})
+SET(SAB_ENABLE_TESTING ON)
+SET(SABUTILS_DLL ON)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
-find_package(Threads)
-find_package(Qt5 COMPONENTS Core Widgets Multimedia XmlPatterns REQUIRED)
+cmake_policy(SET CMP0020 NEW)
+cmake_policy(SET CMP0043 NEW)
+
+SET(CMAKE_INSTALL_PREFIX D:/Dropbox/EmbyRenamer)
+find_package(Qt5 COMPONENTS Core Widgets Test SQL Multimedia MultimediaWidgets XmlPatterns REQUIRED)
 find_package(Deploy REQUIRED)
 find_package(AddUnitTest REQUIRED)
-option( gtest_force_shared_crt "Use shared ( DLL ) run-time lib even when Google Test is built as static lib." ON ) 
-add_subdirectory( ${CMAKE_SOURCE_DIR}/googletest ) 
-set_target_properties( gmock PROPERTIES FOLDER 3rdParty/google  )
-set_target_properties( gmock_main PROPERTIES FOLDER 3rdParty/google )
-set_target_properties( gtest PROPERTIES FOLDER 3rdParty/google )
-set_target_properties( gtest_main PROPERTIES FOLDER 3rdParty/google )
-set_property( GLOBAL PROPERTY USE_FOLDERS ON )
-
-file( REAL_PATH ~/bin/FileRenamer CMAKE_INSTALL_PREFIX EXPAND_TILDE)
-#SET( CMAKE_INSTALL_PREFIX C:/Users/sbloom/bin/FileRenamer )
-
-INSTALL( CODE "
-        MESSAGE( STATUS \"Making a \${CMAKE_INSTALL_CONFIG_NAME} install area\" )
-        IF( \${CMAKE_INSTALL_CONFIG_NAME} MATCHES \"^([Dd][Ee][Bb][Uu][Gg])$\" )
-            SET( CMAKE_INSTALL_PREFIX \${CMAKE_INSTALL_PREFIX}.debug )
-        ENDIF(  )
-        MESSAGE( STATUS \"Installing to \${CMAKE_INSTALL_PREFIX}\" )
-    " )
+find_package(Qt5SrcMoc REQUIRED)
+set_property(GLOBAL PROPERTY USE_FOLDERS ON )
 
 add_subdirectory( SABUtils )
-add_subdirectory( MainWindow )
-add_subdirectory( main )
+add_subdirectory( EmbyRenamer/MainWindow )
+add_subdirectory( EmbyRenamer/main )
 
-SET( CPACK_PACKAGE_VENDOR "Scott Aron Bloom" )
+add_subdirectory( SyncViaRename/MainWindow )
+add_subdirectory( SyncViaRename/main )
+
+add_subdirectory( GroupIT/MainWindow )
+add_subdirectory( GroupIT/main )
+
+add_subdirectory( MultiMoviePerDir/MainWindow )
+add_subdirectory( MultiMoviePerDir/main )
+
+add_subdirectory( RecreateM3U/MainWindow )
+add_subdirectory( RecreateM3U/main )
+
+SET( CPACK_PACKAGE_VENDOR "Scott Aron Bloom scott@towel42.com" )
+SET( CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/LICENSE )
 SET( CPACK_PACKAGE_VERSION_MAJOR "1" )
 SET( CPACK_PACKAGE_VERSION_MINOR "0" )
 SET( CPACK_PACKAGE_VERSION_PATCH "0" )
-SET( CPACK_GENERATOR ZIP NSIS)
+SET( CPACK_GENERATOR ZIP NSIS )
 SET( CPACK_NSIS_MUI_ICON ${CMAKE_SOURCE_DIR}/MainWindow/resources/application.ico )
 SET( CPACK_NSIS_MUI_UNIICON ${CMAKE_SOURCE_DIR}/MainWindow/resources/application.ico )
 include( CPack )

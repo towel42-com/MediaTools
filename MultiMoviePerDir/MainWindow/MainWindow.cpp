@@ -178,7 +178,7 @@ void CMainWindow::loadDirectory()
     fDirModel->setNameFilterDisables(false);
     connect(fDirModel, &QFileSystemModel::directoryLoaded, this, &CMainWindow::slotDirLoaded);
     connect(fDirModel, &CDirModel::sigLoadFinished, this, &CMainWindow::slotFinishedLoading);
-    fBtnEnabler = new CButtonEnabler(fImpl->files, fImpl->btnTransform);
+    fBtnEnabler = new NSABUtils::CButtonEnabler(fImpl->files, fImpl->btnTransform);
 
     fDirModel->reset();
     fDirModel->setNameFilters(fImpl->extensions->text().split(";"));

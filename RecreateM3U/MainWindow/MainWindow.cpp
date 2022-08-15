@@ -47,7 +47,7 @@ CMainWindow::CMainWindow(QWidget* parent)
 
     loadSettings();
 
-    connect(fImpl->dir, &CDelayLineEdit::sigTextChanged, this, &CMainWindow::slotDirectoryChanged);
+    connect(fImpl->dir, &NSABUtils::CDelayLineEdit::sigTextChangedAfterDelay, this, &CMainWindow::slotDirectoryChanged);
     connect(fImpl->btnSelectDir, &QPushButton::clicked, this, &CMainWindow::slotSelectDirectory);
     connect(fImpl->btnTransform, &QPushButton::clicked, this, &CMainWindow::slotTransform);
 

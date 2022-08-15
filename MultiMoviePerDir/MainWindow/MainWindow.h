@@ -30,7 +30,7 @@ class CDirModel;
 class CDirFilterModel;
 class QFileInfo;
 class QDir;
-class CButtonEnabler;
+namespace NSABUtils { class CButtonEnabler; }
 class QFile;
 namespace Ui {class CMainWindow;};
 
@@ -65,7 +65,7 @@ private:
 
     CDirModel* fDirModel{ nullptr };
     CDirFilterModel* fDirFilterModel{ nullptr };
-    CButtonEnabler* fBtnEnabler{ nullptr };
+    NSABUtils::CButtonEnabler* fBtnEnabler{ nullptr };
     std::unique_ptr< Ui::CMainWindow > fImpl;
 };
 

@@ -33,7 +33,7 @@
      </spacer>
     </item>
     <item row="0" column="0" colspan="3">
-     <widget class="CDelayLineEdit" name="dir">
+     <widget class="NSABUtils::CDelayLineEdit" name="dir">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -116,7 +116,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>CDelayLineEdit</class>
+   <class>NSABUtils::CDelayLineEdit</class>
    <extends>QLineEdit</extends>
    <header location="global">SABUtils/DelayLineEdit.h</header>
   </customwidget>

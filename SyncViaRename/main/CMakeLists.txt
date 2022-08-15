@@ -1,6 +1,6 @@
 # The MIT License (MIT)
 #
-# Copyright (c) 2020 Scott Aron Bloom
+# Copyright (c) 2022 Scott Aron Bloom
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,32 +20,32 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-cmake_minimum_required(VERSION 3.1)
-find_package(Qt5 COMPONENTS Core Widgets Test SQL Multimedia XmlPatterns REQUIRED)
-if(CMAKE_VERSION VERSION_LESS "3.7.0")
-    set(CMAKE_INCLUDE_CURRENT_DIR ON)
-endif()
-project( MultiMoviePerDirMainWindow )
+cmake_minimum_required(VERSION 3.22)
+ 
+project( SyncViaRename ) 
 
 include( include.cmake )
-include( ${CMAKE_SOURCE_DIR}/SABUtils/Project.cmake )
-SET( project_pub_DEPS
-     Qt5::Network
-     Qt5::Multimedia 
-     Qt5::MultimediaWidgets
-     Qt5::XmlPatterns
-     ${project_pub_DEPS}
-     )
+include( ${CMAKE_SOURCE_DIR}/Project.cmake )
+include_directories( ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR}/EmbyRenamer )
 
-add_library(${PROJECT_NAME} STATIC
-    ${_PROJECT_DEPENDENCIES} 
-    )
-
-set_target_properties( ${PROJECT_NAME} PROPERTIES FOLDER Libs/MultiMoviePerDir )
-
+add_executable( ${PROJECT_NAME} WIN32
+                ${_PROJECT_DEPENDENCIES} 
+                ${_CMAKE_MODULE_FILES}
+                application.rc 
+          )
+set_target_properties( ${PROJECT_NAME} PROPERTIES FOLDER Apps )
+          
 target_link_libraries( ${PROJECT_NAME}
     PUBLIC
         ${project_pub_DEPS}
     PRIVATE 
         ${project_pri_DEPS}
 )
+
+DeployQt( ${PROJECT_NAME} . )
+DeploySystem( ${PROJECT_NAME} . INSTALL_ONLY 1 )
+
+INSTALL( TARGETS ${PROJECT_NAME} RUNTIME DESTINATION . )
+INSTALL( FILES ${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/${PROJECT_NAME}.pdb DESTINATION . CONFIGURATIONS Debug RelWithDebInfo )
+
+
